@@ -53,7 +53,13 @@ class MyWebServer(SocketServer.BaseRequestHandler):
                 fp=open(indexHtml).read()
                 fp2=open(deepCss).read()
                 responseG=self.response_is_good(indexHtml,"html")
-                open_web=self.open_page(responseG,fp,fp2)    
+                open_web=self.open_page(responseG,fp,fp2)
+	elif path[-4:]=="deep"and path[-1] is not "/":
+		print(path)
+                fp=open(path+"/index.html").read()
+                fp2=open(path+"/deep.css").read()
+                responseG=self.response_is_good(indexHtml,"html")
+                open_web=self.open_page(responseG,fp,fp2)
 #check /.. 404      
         elif "/.." in path:
             responseG=self.NoResponse()
