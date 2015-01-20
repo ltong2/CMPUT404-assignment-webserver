@@ -1,7 +1,7 @@
 import SocketServer,os
 # coding: utf-8
 
-# Copyright 2013 Abram Hindle, Eddie Antonio Santos
+# Copyright 2013 Abram Hindle, Eddie Antonio Santos,Lin Tong, Bowen qi
 # 
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -42,6 +42,9 @@ class MyWebServer(SocketServer.BaseRequestHandler):
         if not (os.path.lexists(path)):
             responseG=self.NoResponse()
             self.request.sendall(responseG)
+            self.request.sendall("\r\n")
+	    Error_message=("<html><body>Error 404, please go back<body><html>")
+	    self.request.sendall(Error_message)
 #else check is it home directory, if its w, we are in www folder, otherwise its deep folder
         elif path[-1]=="/":
             if path[-2]=="w":
@@ -64,6 +67,9 @@ class MyWebServer(SocketServer.BaseRequestHandler):
         elif "/.." in path:
             responseG=self.NoResponse()
             self.request.sendall(responseG)
+            self.request.sendall("\r\n")
+	    Error_message=("<html><body>Error 404, please go back<body><html>")
+	    self.request.sendall(Error_message)
 #check  is it a directory
         elif not(os.path.isdir(path)):
             name,extension =os.path.splitext(path)
@@ -110,3 +116,4 @@ if __name__ == "__main__":
     # Activate the server; this will keep running until you
     # interrupt the program with Ctrl-C
     server.serve_forever()
+
